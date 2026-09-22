@@ -1,5 +1,9 @@
 # Payment Initiation Integration Guide
 
+**Diátaxis type:** How-to guide  
+**Audience:** Backend engineers, solution architects and payment integration teams  
+**Outcome:** Create a payment safely and reconcile its asynchronous lifecycle
+
 This guide explains how to design a provider-neutral payment initiation flow that remains reliable across user redirects, delayed status updates, duplicate requests and webhook retries.
 
 It is intended for backend engineers, solution architects and implementation teams integrating a regulated payment API. Endpoint names and status values are illustrative: replace them with the contract published by your chosen provider.
@@ -278,4 +282,4 @@ The integration is ready for production review when:
 
 ## Next guide
 
-Continue with **Webhook Signature Verification and Replay Protection** to turn the acceptance algorithm into a detailed implementation pattern.
+Continue with [How to Verify and Process a Signed Payment Webhook](../webhook-resilience/verify-signed-payment-webhook.md) to turn the acceptance algorithm into a detailed implementation pattern.

@@ -15,6 +15,19 @@ This repository turns complex payment flows into implementation-ready guidance: 
 - Explicit separation of provider state, internal state and settlement state
 - Documentation patterns that reduce integration ambiguity and support burden
 
+## Documentation model
+
+This repository uses the [Diátaxis](https://diataxis.fr/) framework while retaining domain-based navigation for payments teams. Every document states its content type and serves one primary user need:
+
+| Type | User need | Repository example |
+| --- | --- | --- |
+| Tutorial | Learn by completing a guided exercise | Test a local webhook receiver — planned |
+| How-to guide | Complete a defined implementation task | [Initiate a payment safely](pis/payment-initiation-flow.md) |
+| Reference | Look up precise technical information | Payment errors and retry decisions — planned |
+| Explanation | Understand a system or design decision | Replay attacks and event ordering — planned |
+
+Separating these purposes keeps task instructions concise while allowing deeper concepts and exhaustive technical fields to live in dedicated documents.
+
 ## Reference architecture: payment initiation
 
 The following flow uses a detached JWS request signature as a concrete example. It deliberately keeps the internal payment state separate from the provider's external status vocabulary.
@@ -132,7 +145,7 @@ open-banking-architecture-patterns/
 │   ├── error-taxonomy.md
 │   └── production-readiness-checklist.md
 ├── webhook-resilience/
-│   ├── signature-verification.md
+│   ├── verify-signed-payment-webhook.md
 │   ├── replay-and-deduplication.md
 │   ├── retry-state-machine.md
 │   └── reconciliation.md
@@ -162,7 +175,7 @@ Before launch, the integration team should be able to answer:
 
 - **PIS:** [Payment Initiation Integration Guide](pis/payment-initiation-flow.md), followed by a failure-state catalogue and refund lifecycle
 - **AIS:** consent lifecycle, pagination, rate limits and data freshness
-- **Webhook resilience:** key rotation, queue-backed ingestion and reconciliation
+- **Webhook resilience:** [Verify and Process a Signed Payment Webhook](webhook-resilience/verify-signed-payment-webhook.md), followed by a security reference, replay explanation and local-testing tutorial
 - **Developer experience:** runnable verification examples, test fixtures and troubleshooting decision trees
 
 ## Sources and standards
