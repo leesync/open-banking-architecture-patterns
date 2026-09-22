@@ -160,7 +160,7 @@ Before launch, the integration team should be able to answer:
 
 ## Planned patterns
 
-- **PIS:** failure-state catalogue, retry decisions and refund lifecycle
+- **PIS:** [Payment Initiation Integration Guide](pis/payment-initiation-flow.md), followed by a failure-state catalogue and refund lifecycle
 - **AIS:** consent lifecycle, pagination, rate limits and data freshness
 - **Webhook resilience:** key rotation, queue-backed ingestion and reconciliation
 - **Developer experience:** runnable verification examples, test fixtures and troubleshooting decision trees
