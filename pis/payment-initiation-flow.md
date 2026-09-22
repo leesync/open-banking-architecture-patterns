@@ -271,8 +271,8 @@ The integration is ready for production review when:
 
 ## Standards references
 
-- [Open Banking UK: Payment Initiation API Profile](https://openbankinguk.github.io/read-write-api-site3/v3.1.7/profiles/payment-initiation-api-profile.html)
-- [Open Banking UK: Domestic Payments](https://openbankinguk.github.io/read-write-api-site3/v3.1.11/resources-and-data-models/pisp/domestic-payments.html)
+- [Open Banking UK: Read/Write API v4.0.1](https://openbankinguk.github.io/read-write-api-site3/v4.0.1/)
+- [Open Banking UK: Domestic Payments v4.0.1](https://openbankinguk.github.io/read-write-api-site3/v4.0.1/resources-and-data-models/pisp/domestic-payments.html)
 - [RFC 7515: JSON Web Signature](https://www.rfc-editor.org/rfc/rfc7515)
 - [RFC 9110: HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110)
 
