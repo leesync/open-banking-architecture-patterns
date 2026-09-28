@@ -193,6 +193,16 @@ Before launch, the integration team should be able to answer:
 - [RFC 7515: JSON Web Signature](https://www.rfc-editor.org/rfc/rfc7515)
 - [RFC 9110: HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110)
 
+## Related interactive tools
+
+Use the documentation to understand the patterns, then apply them to a payment architecture:
+
+- [Idempotency & Safety Rails](https://www.syncyourcloud.io/tools/idempotency-rails?utm_source=github&utm_medium=repository&utm_campaign=open-banking-patterns) — define idempotency keys, retry limits, backoff and circuit-breaker behaviour.
+- [Agent Payment Flow Simulator](https://www.syncyourcloud.io/tools/agent-flow-simulator?utm_source=github&utm_medium=repository&utm_campaign=open-banking-patterns) — explore payment paths, approval boundaries and failure states before implementation.
+- [Failure Playbook Generator](https://www.syncyourcloud.io/tools/failure-playbook/about?utm_source=github&utm_medium=repository&utm_campaign=open-banking-patterns) — turn failure scenarios into an operational response sequence.
+
+Tool access requires a Sync Your Cloud account. Availability may depend on membership level.
+
 ## About this work
 
 This is an independent architecture and documentation project. It is not affiliated with or endorsed by any API provider, financial institution or standards body.
