@@ -21,10 +21,10 @@ This repository uses the [Diátaxis](https://diataxis.fr/) framework while retai
 
 | Type | User need | Repository example |
 | --- | --- | --- |
-| Tutorial | Learn by completing a guided exercise | Test a local webhook receiver — planned |
+| Tutorial | Learn by completing a guided exercise | [Build and test a local webhook receiver](tutorials/local-webhook-lab.md) |
 | How-to guide | Complete a defined implementation task | [Initiate a payment safely](pis/payment-initiation-flow.md) |
-| Reference | Look up precise technical information | Payment errors and retry decisions — planned |
-| Explanation | Understand a system or design decision | Replay attacks and event ordering — planned |
+| Reference | Look up precise technical information | [Payment status mapping](pis/status-mapping.md) |
+| Explanation | Understand a system or design decision | [Replay, duplicate delivery and event ordering](webhook-resilience/replay-and-deduplication.md) |
 
 Separating these purposes keeps task instructions concise while allowing deeper concepts and exhaustive technical fields to live in dedicated documents.
 
@@ -126,35 +126,35 @@ receive(request):
 
 The implementation should return a fast success response only after durable acceptance. Slow downstream work—notifications, ledger enrichment or analytics—should run from an internal queue or outbox.
 
-## Repository map
+## Documentation paths
 
-```text
-open-banking-architecture-patterns/
-├── README.md
-├── pis/
-│   ├── payment-initiation-flow.md
-│   ├── request-signing.md
-│   ├── idempotency-and-retries.md
-│   └── status-mapping.md
-├── ais/
-│   ├── consent-lifecycle.md
-│   ├── data-access-flow.md
-│   └── reauthorisation-and-revocation.md
-├── developer-experience/
-│   ├── integration-quickstart.md
-│   ├── error-taxonomy.md
-│   └── production-readiness-checklist.md
-├── webhook-resilience/
-│   ├── verify-signed-payment-webhook.md
-│   ├── replay-and-deduplication.md
-│   ├── retry-state-machine.md
-│   └── reconciliation.md
-├── examples/
-│   ├── node/
-│   └── python/
-└── assets/
-    └── diagrams/
-```
+Start with [Documentation by user need](docs/README.md). It routes readers by Diátaxis purpose instead of mixing learning, tasks, lookup material and conceptual background.
+
+### Tutorial
+
+- [Build and test a local webhook receiver](tutorials/local-webhook-lab.md)
+
+### How-to guides
+
+- [Payment initiation](pis/payment-initiation-flow.md)
+- [Request signing](pis/request-signing.md)
+- [Idempotency and retries](pis/idempotency-and-retries.md)
+- [Account-data access](ais/data-access-flow.md)
+- [Signed webhook verification](webhook-resilience/verify-signed-payment-webhook.md)
+- [Payment reconciliation](webhook-resilience/reconciliation.md)
+
+### Reference
+
+- [Payment status mapping](pis/status-mapping.md)
+- [Consent expiry, reauthorisation and revocation](ais/reauthorisation-and-revocation.md)
+- [Error taxonomy](developer-experience/error-taxonomy.md)
+- [Webhook retry state machine](webhook-resilience/retry-state-machine.md)
+- [Production-readiness checklist](developer-experience/production-readiness-checklist.md)
+
+### Explanation
+
+- [Account-information consent lifecycle](ais/consent-lifecycle.md)
+- [Replay, duplicate delivery and event ordering](webhook-resilience/replay-and-deduplication.md)
 
 ## Production-readiness questions
 
@@ -170,13 +170,6 @@ Before launch, the integration team should be able to answer:
 - What happens after the provider exhausts webhook retries?
 - Can operations replay an event safely without duplicating side effects?
 - Which metrics reveal signature failures, retry storms and reconciliation drift?
-
-## Planned patterns
-
-- **PIS:** [Payment Initiation Integration Guide](pis/payment-initiation-flow.md), followed by a failure-state catalogue and refund lifecycle
-- **AIS:** consent lifecycle, pagination, rate limits and data freshness
-- **Webhook resilience:** [Verify and Process a Signed Payment Webhook](webhook-resilience/verify-signed-payment-webhook.md), followed by a security reference, replay explanation and local-testing tutorial
-- **Developer experience:** runnable verification examples, test fixtures and troubleshooting decision trees
 
 ## Sources and standards
 
