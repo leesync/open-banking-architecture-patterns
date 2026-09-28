@@ -1,19 +1,35 @@
 # Open Banking Architecture Patterns
 
-Production-minded reference patterns for engineers integrating Open Banking, payment initiation and account-information APIs.
+**Design payment and account-data integrations that remain correct when requests time out, customers abandon authorisation, and webhooks arrive late, twice or out of order.**
 
-This repository turns complex payment flows into implementation-ready guidance: sequence diagrams, trust boundaries, failure modes, webhook controls and operational checklists. It is designed for platform teams, solution architects, technical writers and developer-experience teams who need documentation that closes the gap between an API reference and a resilient production integration.
+API references explain which endpoint to call. This repository documents what engineering teams still need to decide around those calls: trust boundaries, internal state, idempotency, consent, signed webhooks, reconciliation and operational evidence.
 
-> **Scope:** The examples are provider-neutral. Placeholder headers such as `Provider-Signature` represent controls whose exact names and formats vary by platform. Always confirm endpoints, event names, status values and cryptographic requirements against your provider's current documentation.
+It is a provider-neutral, production-minded documentation portfolio for backend engineers, solution architects and developer-experience teams working with Open Banking, payment initiation and account-information APIs.
+
+> **Scope:** Placeholder paths, headers and statuses illustrate patterns—not a provider contract. Confirm every endpoint, event, status, algorithm and cryptographic input against the provider and scheme version you implement.
+
+## Start here
+
+| If you need to… | Start with |
+| --- | --- |
+| Understand the complete payment journey | [Payment Initiation Integration Guide](pis/payment-initiation-flow.md) |
+| Prevent duplicate payments during uncertain retries | [Idempotency and safe retries](pis/idempotency-and-retries.md) |
+| Authenticate asynchronous payment events | [Signed webhook verification](webhook-resilience/verify-signed-payment-webhook.md) |
+| Implement account-data consent and retrieval | [Account-data access flow](ais/data-access-flow.md) |
+| Learn the webhook controls through an exercise | [Local webhook tutorial](tutorials/local-webhook-lab.md) |
+| Assess an integration before launch | [Production-readiness checklist](developer-experience/production-readiness-checklist.md) |
+| Browse by documentation purpose | [Diátaxis documentation map](docs/README.md) |
 
 ## What this repository demonstrates
 
-- End-to-end Payment Initiation Service (PIS) flows, including decoupled authorisation
-- Account Information Service (AIS) consent and data-access patterns
-- Signed API requests, idempotency and safe retry behaviour
-- Authenticated webhook handling with replay and duplicate protection
-- Explicit separation of provider state, internal state and settlement state
-- Documentation patterns that reduce integration ambiguity and support burden
+- An end-to-end Payment Initiation Service flow with decoupled user authorisation
+- Explicit separation of provider status, internal payment state and settlement meaning
+- Backend request signing without exposing private keys to client applications
+- Stable idempotency across connection failures, timeouts and safe retries
+- Authenticated webhook processing with freshness, deduplication and transition controls
+- Account Information Service consent, data-access and revocation patterns
+- Recovery through bounded reconciliation when notifications are delayed or exhausted
+- Documentation structured with Diátaxis so learning, tasks, lookup and explanation stay distinct
 
 ## Documentation model
 
@@ -173,7 +189,7 @@ Before launch, the integration team should be able to answer:
 
 ## Sources and standards
 
-- [Open Banking UK: Domestic Payments v3.1.11](https://openbankinguk.github.io/read-write-api-site3/v3.1.11/resources-and-data-models/pisp/domestic-payments.html)
+- [Open Banking UK: Read/Write API v4.0.1](https://openbankinguk.github.io/read-write-api-site3/v4.0.1/)
 - [RFC 7515: JSON Web Signature](https://www.rfc-editor.org/rfc/rfc7515)
 - [RFC 9110: HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110)
 
