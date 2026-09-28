@@ -1,19 +1,35 @@
 # Open Banking Architecture Patterns
 
-Production-minded reference patterns for engineers integrating Open Banking, payment initiation and account-information APIs.
+**Design payment and account-data integrations that remain correct when requests time out, customers abandon authorisation, and webhooks arrive late, twice or out of order.**
 
-This repository turns complex payment flows into implementation-ready guidance: sequence diagrams, trust boundaries, failure modes, webhook controls and operational checklists. It is designed for platform teams, solution architects, technical writers and developer-experience teams who need documentation that closes the gap between an API reference and a resilient production integration.
+API references explain which endpoint to call. This repository documents what engineering teams still need to decide around those calls: trust boundaries, internal state, idempotency, consent, signed webhooks, reconciliation and operational evidence.
 
-> **Scope:** The examples are provider-neutral. Placeholder headers such as `Provider-Signature` represent controls whose exact names and formats vary by platform. Always confirm endpoints, event names, status values and cryptographic requirements against your provider's current documentation.
+It is a provider-neutral, production-minded documentation portfolio for backend engineers, solution architects and developer-experience teams working with Open Banking, payment initiation and account-information APIs.
+
+> **Scope:** Placeholder paths, headers and statuses illustrate patterns—not a provider contract. Confirm every endpoint, event, status, algorithm and cryptographic input against the provider and scheme version you implement.
+
+## Start here
+
+| If you need to… | Start with |
+| --- | --- |
+| Understand the complete payment journey | [Payment Initiation Integration Guide](pis/payment-initiation-flow.md) |
+| Prevent duplicate payments during uncertain retries | [Idempotency and safe retries](pis/idempotency-and-retries.md) |
+| Authenticate asynchronous payment events | [Signed webhook verification](webhook-resilience/verify-signed-payment-webhook.md) |
+| Implement account-data consent and retrieval | [Account-data access flow](ais/data-access-flow.md) |
+| Learn the webhook controls through an exercise | [Local webhook tutorial](tutorials/local-webhook-lab.md) |
+| Assess an integration before launch | [Production-readiness checklist](developer-experience/production-readiness-checklist.md) |
+| Browse by documentation purpose | [Diátaxis documentation map](docs/README.md) |
 
 ## What this repository demonstrates
 
-- End-to-end Payment Initiation Service (PIS) flows, including decoupled authorisation
-- Account Information Service (AIS) consent and data-access patterns
-- Signed API requests, idempotency and safe retry behaviour
-- Authenticated webhook handling with replay and duplicate protection
-- Explicit separation of provider state, internal state and settlement state
-- Documentation patterns that reduce integration ambiguity and support burden
+- An end-to-end Payment Initiation Service flow with decoupled user authorisation
+- Explicit separation of provider status, internal payment state and settlement meaning
+- Backend request signing without exposing private keys to client applications
+- Stable idempotency across connection failures, timeouts and safe retries
+- Authenticated webhook processing with freshness, deduplication and transition controls
+- Account Information Service consent, data-access and revocation patterns
+- Recovery through bounded reconciliation when notifications are delayed or exhausted
+- Documentation structured with Diátaxis so learning, tasks, lookup and explanation stay distinct
 
 ## Documentation model
 
@@ -21,10 +37,10 @@ This repository uses the [Diátaxis](https://diataxis.fr/) framework while retai
 
 | Type | User need | Repository example |
 | --- | --- | --- |
-| Tutorial | Learn by completing a guided exercise | Test a local webhook receiver — planned |
+| Tutorial | Learn by completing a guided exercise | [Build and test a local webhook receiver](tutorials/local-webhook-lab.md) |
 | How-to guide | Complete a defined implementation task | [Initiate a payment safely](pis/payment-initiation-flow.md) |
-| Reference | Look up precise technical information | Payment errors and retry decisions — planned |
-| Explanation | Understand a system or design decision | Replay attacks and event ordering — planned |
+| Reference | Look up precise technical information | [Payment status mapping](pis/status-mapping.md) |
+| Explanation | Understand a system or design decision | [Replay, duplicate delivery and event ordering](webhook-resilience/replay-and-deduplication.md) |
 
 Separating these purposes keeps task instructions concise while allowing deeper concepts and exhaustive technical fields to live in dedicated documents.
 
@@ -126,35 +142,35 @@ receive(request):
 
 The implementation should return a fast success response only after durable acceptance. Slow downstream work—notifications, ledger enrichment or analytics—should run from an internal queue or outbox.
 
-## Repository map
+## Documentation paths
 
-```text
-open-banking-architecture-patterns/
-├── README.md
-├── pis/
-│   ├── payment-initiation-flow.md
-│   ├── request-signing.md
-│   ├── idempotency-and-retries.md
-│   └── status-mapping.md
-├── ais/
-│   ├── consent-lifecycle.md
-│   ├── data-access-flow.md
-│   └── reauthorisation-and-revocation.md
-├── developer-experience/
-│   ├── integration-quickstart.md
-│   ├── error-taxonomy.md
-│   └── production-readiness-checklist.md
-├── webhook-resilience/
-│   ├── verify-signed-payment-webhook.md
-│   ├── replay-and-deduplication.md
-│   ├── retry-state-machine.md
-│   └── reconciliation.md
-├── examples/
-│   ├── node/
-│   └── python/
-└── assets/
-    └── diagrams/
-```
+Start with [Documentation by user need](docs/README.md). It routes readers by Diátaxis purpose instead of mixing learning, tasks, lookup material and conceptual background.
+
+### Tutorial
+
+- [Build and test a local webhook receiver](tutorials/local-webhook-lab.md)
+
+### How-to guides
+
+- [Payment initiation](pis/payment-initiation-flow.md)
+- [Request signing](pis/request-signing.md)
+- [Idempotency and retries](pis/idempotency-and-retries.md)
+- [Account-data access](ais/data-access-flow.md)
+- [Signed webhook verification](webhook-resilience/verify-signed-payment-webhook.md)
+- [Payment reconciliation](webhook-resilience/reconciliation.md)
+
+### Reference
+
+- [Payment status mapping](pis/status-mapping.md)
+- [Consent expiry, reauthorisation and revocation](ais/reauthorisation-and-revocation.md)
+- [Error taxonomy](developer-experience/error-taxonomy.md)
+- [Webhook retry state machine](webhook-resilience/retry-state-machine.md)
+- [Production-readiness checklist](developer-experience/production-readiness-checklist.md)
+
+### Explanation
+
+- [Account-information consent lifecycle](ais/consent-lifecycle.md)
+- [Replay, duplicate delivery and event ordering](webhook-resilience/replay-and-deduplication.md)
 
 ## Production-readiness questions
 
@@ -171,18 +187,21 @@ Before launch, the integration team should be able to answer:
 - Can operations replay an event safely without duplicating side effects?
 - Which metrics reveal signature failures, retry storms and reconciliation drift?
 
-## Planned patterns
-
-- **PIS:** [Payment Initiation Integration Guide](pis/payment-initiation-flow.md), followed by a failure-state catalogue and refund lifecycle
-- **AIS:** consent lifecycle, pagination, rate limits and data freshness
-- **Webhook resilience:** [Verify and Process a Signed Payment Webhook](webhook-resilience/verify-signed-payment-webhook.md), followed by a security reference, replay explanation and local-testing tutorial
-- **Developer experience:** runnable verification examples, test fixtures and troubleshooting decision trees
-
 ## Sources and standards
 
-- [Open Banking UK: Domestic Payments v3.1.11](https://openbankinguk.github.io/read-write-api-site3/v3.1.11/resources-and-data-models/pisp/domestic-payments.html)
+- [Open Banking UK: Read/Write API v4.0.1](https://openbankinguk.github.io/read-write-api-site3/v4.0.1/)
 - [RFC 7515: JSON Web Signature](https://www.rfc-editor.org/rfc/rfc7515)
 - [RFC 9110: HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110)
+
+## Related interactive tools
+
+Use the documentation to understand the patterns, then apply them to a payment architecture:
+
+- [Idempotency & Safety Rails](https://www.syncyourcloud.io/tools/idempotency-rails?utm_source=github&utm_medium=repository&utm_campaign=open-banking-patterns) — define idempotency keys, retry limits, backoff and circuit-breaker behaviour.
+- [Agent Payment Flow Simulator](https://www.syncyourcloud.io/tools/agent-flow-simulator?utm_source=github&utm_medium=repository&utm_campaign=open-banking-patterns) — explore payment paths, approval boundaries and failure states before implementation.
+- [Failure Playbook Generator](https://www.syncyourcloud.io/tools/failure-playbook/about?utm_source=github&utm_medium=repository&utm_campaign=open-banking-patterns) — turn failure scenarios into an operational response sequence.
+
+Tool access requires a Sync Your Cloud account. Availability may depend on membership level.
 
 ## About this work
 
